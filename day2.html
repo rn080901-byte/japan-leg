@@ -1,1 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 02 · Osaka · Asia Grand Tour 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#ffffff;--bg-soft:#f7f5f2;--bg-card:#f2efe9;--bg-deep:#ede9e1;
+  --rule:#d8d0c0;--muted:#888070;--body:#2a2420;--heading:#0d0a08;
+  --gold:#a06820;--gold-lo:rgba(160,104,32,0.09);
+  --teal:#1e6860;--teal-lo:rgba(30,104,96,0.08);
+  --red:#8a2018;--red-lo:rgba(138,32,24,0.07);
+  --rain:#2a4a7a;--rain-lo:rgba(42,74,122,0.08);
+  --pivot:#1a4a2a;--pivot-lo:rgba(26,74,42,0.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--body);font-size:15px;line-height:1.65;min-height:100vh}
+.page{max-width:860px;margin:0 auto;padding:0 0 80px}
+
+/* ── MASTHEAD ── */
+.masthead{position:relative;padding:52px 48px 40px;border-bottom:2px solid var(--heading);overflow:hidden;background:var(--bg)}
+.masthead::after{content:'';position:absolute;top:0;right:0;width:320px;height:100%;background:linear-gradient(to left,rgba(160,104,32,0.04),transparent);pointer-events:none}
+.tour-label{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp 0.5s ease forwards 0.1s}
+.tour-label::after{content:'';flex:1;height:1px;background:linear-gradient(to right,var(--rule),transparent)}
+.day-eyebrow{display:flex;align-items:baseline;gap:18px;margin-bottom:10px;opacity:0;animation:fadeUp 0.5s ease forwards 0.2s}
+.day-number{font-family:'Cormorant Garamond',serif;font-size:5.5rem;font-weight:300;line-height:0.85;color:var(--gold);letter-spacing:-3px}
+.day-name{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--heading);line-height:1}
+.day-date{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-top:6px}
+.day-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;font-style:italic;color:var(--body);margin-top:14px;line-height:1.3;max-width:580px;opacity:0;animation:fadeUp 0.5s ease forwards 0.3s}
+.rating-badge{display:inline-flex;align-items:center;gap:8px;margin-top:16px;background:var(--gold-lo);border:1px solid rgba(160,104,32,0.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--gold);opacity:0;animation:fadeUp 0.5s ease forwards 0.35s}
+
+/* ── CONDITIONS ── */
+.conditions{display:flex;flex-wrap:wrap;gap:8px;padding:20px 48px;border-bottom:1px solid var(--rule);background:var(--bg-soft);opacity:0;animation:fadeUp 0.5s ease forwards 0.4s}
+.chip{display:flex;align-items:center;gap:6px;padding:5px 13px;border-radius:20px;font-size:12px;font-weight:500;border:1px solid}
+.chip-heat{background:var(--red-lo);border-color:rgba(138,32,24,0.2);color:var(--red)}
+.chip-info{background:var(--teal-lo);border-color:rgba(30,104,96,0.22);color:var(--teal)}
+.chip-gold{background:var(--gold-lo);border-color:rgba(160,104,32,0.22);color:var(--gold)}
+
+/* ── LOGIC BOX ── */
+.logic-box{margin:28px 48px;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;border-top:1px solid var(--rule);border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 22px;background:var(--bg-card);opacity:0;animation:fadeUp 0.5s ease forwards 0.45s}
+.logic-box h3{font-size:10px;font-weight:600;color:var(--gold);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px}
+.logic-pillars{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.pillar{background:var(--bg);border:1px solid var(--rule);border-radius:6px;padding:9px 12px;font-size:12.5px;color:var(--body)}
+.pillar strong{color:var(--teal);display:block;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px}
+
+/* ── ROUTE ── */
+.route-strip{padding:20px 48px;border-bottom:1px solid var(--rule);opacity:0;animation:fadeUp 0.5s ease forwards 0.5s}
+.route-strip h3{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.route-nodes{display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.route-node{display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--body)}
+.route-node .label{font-weight:600;color:var(--heading)}
+.route-node .sub{font-size:10px;color:var(--muted)}
+.route-arrow{color:var(--rule);margin:0 4px}
+
+/* ── PHASE DIVIDERS ── */
+.phase-divider{padding:10px 48px 0;display:flex;align-items:center;gap:12px;opacity:0;animation:fadeUp 0.4s ease forwards}
+.phase-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);white-space:nowrap;font-weight:600}
+.phase-line{flex:1;height:1px;background:var(--rule)}
+.phase-icon{font-size:14px}
+
+/* ── WEATHER DECISION BOX ── */
+.weather-decision{margin:14px 48px 0;border:1.5px solid rgba(42,74,122,0.2);border-radius:8px;overflow:hidden}
+.wd-header{background:var(--rain-lo);padding:10px 16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rain);font-weight:600;border-bottom:1px solid rgba(42,74,122,0.15);display:flex;align-items:center;gap:8px}
+.wd-body{display:grid;grid-template-columns:1fr 1fr;background:var(--bg)}
+.wd-option{padding:12px 16px;font-size:13px}
+.wd-option:first-child{border-right:1px solid var(--rule)}
+.wd-icon{font-size:1.1rem;margin-bottom:5px}
+.wd-label{font-weight:600;color:var(--heading);font-size:12px;margin-bottom:4px}
+.wd-text{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ── BLOCKS ── */
+.blocks{padding:0 48px}
+.block{display:grid;grid-template-columns:86px 1fr;gap:0 22px;padding:22px 0;border-bottom:1px solid var(--rule);opacity:0;animation:fadeUp 0.4s ease forwards}
+.block:last-child{border-bottom:none}
+.block:nth-child(1){animation-delay:0.55s}.block:nth-child(2){animation-delay:0.62s}.block:nth-child(3){animation-delay:0.69s}.block:nth-child(4){animation-delay:0.76s}.block:nth-child(5){animation-delay:0.83s}.block:nth-child(6){animation-delay:0.90s}.block:nth-child(7){animation-delay:0.97s}.block:nth-child(8){animation-delay:1.04s}.block:nth-child(9){animation-delay:1.11s}.block:nth-child(10){animation-delay:1.18s}.block:nth-child(11){animation-delay:1.25s}
+.b-time{display:flex;flex-direction:column;align-items:flex-end;padding-top:2px}
+.b-clock{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;color:var(--gold);line-height:1}
+.b-duration{font-size:10px;color:var(--muted);letter-spacing:1px;margin-top:4px;text-align:right}
+.b-label{font-size:14px;font-weight:600;color:var(--heading);margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:space-between}
+.tag{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 8px;border-radius:10px;font-weight:600}
+.tag-rest{background:var(--teal-lo);color:var(--teal);border:1px solid rgba(30,104,96,0.2)}
+.tag-key{background:var(--gold-lo);color:var(--gold);border:1px solid rgba(160,104,32,0.2)}
+.tag-food{background:var(--red-lo);color:var(--red);border:1px solid rgba(138,32,24,0.15)}
+.tag-transit{background:rgba(80,80,110,0.07);color:#505078;border:1px solid rgba(80,80,110,0.15)}
+.tag-peak{background:var(--gold-lo);color:var(--gold);border:1px solid rgba(160,104,32,0.25)}
+.tag-lock{background:rgba(30,104,96,0.1);color:var(--teal);border:1px solid rgba(30,104,96,0.2)}
+.tag-rule{background:var(--red-lo);color:var(--red);border:1px solid rgba(138,32,24,0.2);font-size:9px}
+.b-text{font-size:13.5px;color:var(--body);line-height:1.72}
+.b-text strong{color:var(--heading);font-weight:600}
+
+/* ── COST BADGE ── */
+.cost{display:inline-flex;align-items:center;gap:6px;margin-left:auto;background:rgba(30,104,96,0.07);border:1px solid rgba(30,104,96,0.2);border-radius:20px;padding:3px 11px;font-size:11.5px;font-weight:600;color:var(--teal);white-space:nowrap}
+.cost .yen{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:700}
+.cost .aud{font-size:10.5px;color:var(--muted);font-weight:500}
+.cost.free{background:rgba(138,32,24,0.06);border-color:rgba(138,32,24,0.15);color:var(--red)}
+.cost.hotel{background:rgba(160,104,32,0.08);border-color:rgba(160,104,32,0.2);color:var(--gold)}
+
+/* ── CALLOUTS ── */
+.callout{margin-top:10px;padding:11px 14px;border-radius:6px;font-size:12.5px;line-height:1.65;display:flex;gap:9px;align-items:flex-start}
+.callout-nav{background:var(--teal-lo);border:1px solid rgba(30,104,96,0.18);color:#155248}
+.callout-tip{background:var(--gold-lo);border:1px solid rgba(160,104,32,0.18);color:#7a4e10}
+.callout-warn{background:var(--red-lo);border:1px solid rgba(138,32,24,0.15);color:#8a2018}
+.callout-rain{background:var(--rain-lo);border:1px solid rgba(42,74,122,0.2);color:#1a2a5a}
+.callout-pivot{background:var(--pivot-lo);border:1px solid rgba(26,74,42,0.2);color:#0a2a14}
+.callout-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* ── METRO DIAGRAM ── */
+.metro-diagram{margin-top:12px;background:var(--bg-soft);border:1px solid var(--rule);border-radius:8px;padding:14px 16px}
+.metro-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.metro-step:last-child{margin-bottom:0}
+.metro-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.metro-dot.jr{background:#008000;color:white}
+.metro-dot.midosuji{background:#e8363a;color:white}
+.metro-dot.chuo{background:#3b82c4;color:white}
+.metro-dot.walk{background:var(--bg-deep);color:var(--body);font-size:13px}
+.metro-connector{width:2px;height:12px;background:var(--rule);margin:0 11px}
+.metro-line-name{font-size:12px;font-weight:600;color:var(--heading)}
+.metro-line-detail{font-size:11.5px;color:var(--muted);margin-top:2px}
+
+/* ── STEPS BOX ── */
+.steps-box{margin-top:12px;background:var(--bg-soft);border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.steps-header{background:var(--bg-deep);padding:9px 14px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;border-bottom:1px solid var(--rule)}
+.steps-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.step-row{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:flex-start}
+.step-num{width:24px;height:24px;background:var(--gold-lo);border:1px solid rgba(160,104,32,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--gold);flex-shrink:0}
+.step-num.stop{background:var(--red-lo);border-color:rgba(138,32,24,0.2);color:var(--red);font-size:13px}
+.step-content{font-size:13px;color:var(--body)}
+.step-content strong{color:var(--heading);display:block;font-size:12px;margin-bottom:2px}
+.step-content em{font-style:normal;color:var(--muted);font-size:12px}
+
+/* ── PEAK BOX ── */
+.peak-box{margin-top:12px;border:1.5px solid rgba(160,104,32,0.25);border-radius:8px;overflow:hidden}
+.peak-header{background:linear-gradient(135deg,var(--gold-lo),rgba(138,32,24,0.04));padding:10px 14px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:600;border-bottom:1px solid rgba(160,104,32,0.15)}
+.peak-timeline{background:var(--bg);padding:12px 14px;display:flex;flex-direction:column;gap:9px}
+.peak-row{display:grid;grid-template-columns:60px 1fr;gap:10px;align-items:baseline}
+.peak-time{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;color:var(--gold);text-align:right}
+.peak-desc{font-size:13px;color:var(--body)}
+.peak-desc strong{color:var(--heading)}
+
+/* ── FOOD STOPS ── */
+.food-stops{margin-top:12px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.food-stop{background:var(--bg-soft);border:1px solid var(--rule);border-radius:7px;padding:13px 14px}
+.food-stop-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px}
+.food-stop-name{font-size:12.5px;font-weight:600;color:var(--heading);margin-bottom:4px}
+.food-stop-item{font-size:12.5px;color:var(--body);margin-bottom:3px;line-height:1.5}
+.food-stop-note{font-size:11px;color:var(--muted);margin-top:6px;font-style:italic}
+
+/* ── DAILY TOTAL ── */
+.daily-total{margin:28px 48px 0;border:1.5px solid rgba(30,104,96,0.25);border-radius:10px;overflow:hidden;opacity:0;animation:fadeUp 0.5s ease forwards 1.36s}
+.daily-total-header{background:rgba(30,104,96,0.08);border-bottom:1px solid rgba(30,104,96,0.18);padding:12px 18px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--teal);font-weight:600}
+.daily-total-rows{background:var(--bg)}
+.cost-row{display:grid;grid-template-columns:1fr 90px 80px;padding:9px 18px;border-bottom:1px solid var(--rule);font-size:13px;align-items:center;gap:8px}
+.cost-row:last-child{border-bottom:none}
+.cost-row:nth-child(even){background:var(--bg-soft)}
+.cost-row.total-row{background:rgba(30,104,96,0.07)!important;border-top:2px solid rgba(30,104,96,0.2);font-weight:700}
+.cr-label{color:var(--body)}
+.cr-yen{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:700;color:var(--teal);text-align:right}
+.cr-aud{font-size:11.5px;color:var(--muted);text-align:right}
+.cost-row.total-row .cr-label{color:var(--heading);font-size:13.5px}
+.cost-row.total-row .cr-yen{font-size:1.2rem}
+.cost-row.total-row .cr-aud{color:var(--body);font-weight:600;font-size:12px}
+
+/* ── SCORE ── */
+.score-table{margin-top:12px;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--bg)}
+.score-row{display:grid;grid-template-columns:1fr 80px;padding:8px 14px;border-bottom:1px solid var(--rule);font-size:13px;align-items:center}
+.score-row:last-child{border-bottom:none}
+.score-row:nth-child(even){background:var(--bg-soft)}
+.score-cat{color:var(--body)}
+.score-val{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--gold);text-align:right}
+
+/* ── PACKING ── */
+.packing-strip{margin:28px 48px 0;border:1px solid var(--rule);border-radius:10px;overflow:hidden;opacity:0;animation:fadeUp 0.5s ease forwards 1.4s}
+.packing-header{background:var(--bg-deep);border-bottom:1px solid var(--rule);padding:12px 18px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted)}
+.packing-items{display:flex;flex-wrap:wrap;gap:8px;padding:14px 18px;background:var(--bg-soft)}
+.pack-item{font-size:12px;color:var(--body);padding:4px 12px;background:var(--bg);border:1px solid var(--rule);border-radius:16px}
+
+/* ── PINS ── */
+.pins-strip{margin:14px 48px 0;border:1px solid rgba(66,133,244,0.18);border-radius:10px;overflow:hidden;opacity:0;animation:fadeUp 0.5s ease forwards 1.5s}
+.pins-header{background:#e8f0fe;border-bottom:1px solid rgba(66,133,244,0.15);padding:12px 18px;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#1a5bbf}
+.pins-list{display:flex;flex-wrap:wrap;gap:7px;padding:14px 18px;background:#f5f8ff}
+.pin{font-size:11.5px;color:#1a5bbf;padding:4px 11px;background:rgba(66,133,244,0.06);border:1px solid rgba(66,133,244,0.16);border-radius:14px}
+
+/* ── FOOTER ── */
+.day-footer{margin:20px 48px 0;padding:18px 22px;background:var(--bg-card);border:1px solid var(--rule);border-radius:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;opacity:0;animation:fadeUp 0.5s ease forwards 1.6s}
+.footer-prev{font-size:12px;color:var(--muted)}
+.footer-next{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--body);display:flex;align-items:center;gap:8px}
+.footer-next strong{color:var(--heading);font-style:italic}
+.footer-dots{display:flex;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--rule)}
+.dot.active{background:var(--gold)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:620px){.masthead,.conditions,.logic-box,.route-strip,.blocks,.packing-strip,.pins-strip,.day-footer,.phase-divider,.weather-decision{padding-left:20px;padding-right:20px}.masthead{padding-top:36px;padding-bottom:30px}.day-number{font-size:4rem}.block{grid-template-columns:68px 1fr;gap:0 14px}.food-stops{grid-template-columns:1fr}}
+@media print{*,*::before,*::after{opacity:1!important;animation:none!important;transform:none!important;transition:none!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}html,body{background:white!important;font-size:11pt!important;line-height:1.45!important;min-height:0!important}.page{max-width:100%!important;padding:0!important;margin:0!important}.masthead{padding:18pt 14pt 12pt!important;page-break-after:avoid!important;break-after:avoid!important}.masthead::after,.masthead::before{display:none!important}.day-number,.summary-title,.title-text h1{font-size:32pt!important}.day-name{font-size:14pt!important}.day-title,.subtitle,.summary-subtitle{font-size:10.5pt!important;margin-top:6pt!important}.tour-label{margin-bottom:8pt!important;font-size:7pt!important}.day-eyebrow,.title-row{margin-bottom:4pt!important}.badges{margin-top:8pt!important}.badge,.chip,.legend-pill,.task-tag,.tag,.pack-item,.pin,.metro-tag,.highlight-chip{font-size:7.5pt!important;padding:1pt 5pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.conditions,.legend-bar{padding:8pt 14pt!important;gap:4pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.logic-box,.transition-box,.opening,.notes-box,.closing-box,.guide-callouts,.priority-strip,.moments-box,.lessons-box{margin:8pt 14pt!important;padding:10pt 14pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.logic-box h3,.notes-box h3,.closing-box h3,.guide-callouts h2,.priority-strip,.moments-box h3,.lessons-box h3{font-size:10pt!important;margin-bottom:6pt!important}.logic-pillars{grid-template-columns:repeat(2,1fr)!important;gap:4pt!important}.pillar{padding:5pt 7pt!important;font-size:8.5pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.route-strip{padding:10pt 14pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.route-strip h3{margin-bottom:6pt!important;font-size:7pt!important}.route-node{font-size:8.5pt!important}.phase-divider{padding:6pt 14pt 0!important;page-break-after:avoid!important;break-after:avoid!important}.phase-label{font-size:7pt!important}.blocks{padding:0 14pt!important}.block{padding:9pt 0!important;grid-template-columns:60pt 1fr!important;gap:0 12pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.b-time{padding-top:1pt!important}.b-clock{font-size:11pt!important}.b-duration{font-size:7pt!important;margin-top:2pt!important}.b-label{font-size:10.5pt!important;margin-bottom:3pt!important}.b-text{font-size:9.5pt!important;line-height:1.5!important}.callout{margin-top:5pt!important;padding:6pt 9pt!important;font-size:9pt!important;line-height:1.45!important;page-break-inside:avoid!important;break-inside:avoid!important}.metro-diagram,.walk-box,.ginza-box,.flight-box,.checklist-box,.arrival-box{margin-top:6pt!important;padding:8pt 10pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.walk-header,.ginza-header,.checklist-header,.arrival-header,.flight-header{padding:5pt 8pt!important;font-size:7.5pt!important}.walk-row,.ginza-row,.check-row,.arr-row{padding-bottom:5pt!important}.walk-text,.ginza-text,.check-row,.arr-text{font-size:9pt!important;line-height:1.45!important}.metro-step{margin-bottom:5pt!important}.metro-line-name{font-size:9pt!important}.metro-line-detail{font-size:8.5pt!important}.cost{font-size:8.5pt!important;padding:1pt 7pt!important}.cost .yen{font-size:9.5pt!important}.cost .aud{font-size:7.5pt!important}.daily-total,.cost-summary{margin:8pt 14pt 0!important;page-break-inside:avoid!important;break-inside:avoid!important}.daily-total-header,.cost-header{padding:7pt 12pt!important;font-size:7.5pt!important}.cost-row,.cost-row-sum{padding:5pt 12pt!important;font-size:9pt!important}.cr-yen,.cr-sum-value{font-size:9.5pt!important}.cr-aud{font-size:8pt!important}.packing-strip,.pins-strip{margin:6pt 14pt 0!important;page-break-inside:avoid!important;break-inside:avoid!important}.packing-header,.pins-header{padding:7pt 12pt!important;font-size:7.5pt!important}.packing-items,.pins-list{padding:8pt 12pt!important;gap:4pt!important}.day-footer,.footer{margin:8pt 14pt 0!important;padding:9pt 12pt!important;page-break-before:avoid!important;break-before:avoid!important}.footer-prev,.footer-next,.footer-text{font-size:8.5pt!important}.dot{width:4pt!important;height:4pt!important}.countdown-bar{page-break-inside:avoid!important;break-inside:avoid!important}.cd-cell{padding:8pt 10pt!important}.cd-num{font-size:14pt!important}.cd-label{font-size:7pt!important}.section-banner{margin:10pt 14pt 0!important;padding:7pt 12pt!important;page-break-after:avoid!important;break-after:avoid!important;page-break-inside:avoid!important;break-inside:avoid!important}.section-banner h2{font-size:11pt!important}.tasks{padding:0 14pt!important;margin-top:6pt!important}.task-card,.guide-row,.moment-row,.lesson-item,.pri-item,.first-card,.flight-row,.cd-cell{page-break-inside:avoid!important;break-inside:avoid!important}.task-card{padding:7pt 10pt!important;margin-bottom:4pt!important;grid-template-columns:22pt 1fr auto!important}.checkbox{width:14pt!important;height:14pt!important;font-size:11pt!important}.task-title{font-size:10pt!important}.task-detail{font-size:8.5pt!important;line-height:1.45!important}.task-status{font-size:7pt!important;padding-top:2pt!important}.guide-row,.moment-row,.lesson-item{padding:7pt 0!important}.guide-content h4,.moment-text strong,.lesson-text strong{font-size:10pt!important}.guide-content p,.moment-text,.lesson-text{font-size:9pt!important;line-height:1.45!important}.guide-cost{font-size:9pt!important}.firsts-grid{padding:0 14pt!important;grid-template-columns:repeat(2,1fr)!important;gap:5pt!important}.first-card{padding:7pt 9pt!important}.first-label{font-size:7pt!important}.first-value{font-size:8.5pt!important;line-height:1.4!important}.section-header{padding:14pt 14pt 6pt!important;page-break-after:avoid!important;break-after:avoid!important}.section-header h2{font-size:13pt!important}.opening{padding:12pt 14pt!important}.opening p{font-size:10pt!important;line-height:1.55!important}.stats-bar{page-break-inside:avoid!important;break-inside:avoid!important}.stat{padding:8pt 10pt!important}.stat-num{font-size:16pt!important}.stat-label{font-size:7pt!important}.city-timeline{padding:0 14pt!important}.city-block{padding:9pt 0!important;grid-template-columns:75pt 1fr!important;gap:0 14pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.city-days{font-size:11pt!important}.city-dates,.city-nights{font-size:7.5pt!important}.city-body h4{font-size:10.5pt!important;margin-bottom:4pt!important}.city-body p{font-size:9pt!important;line-height:1.45!important;margin-bottom:5pt!important}.city-highlights{margin-top:6pt!important;gap:4pt!important}.sayonara{margin:14pt 14pt 0!important;padding:12pt 14pt!important;page-break-inside:avoid!important;break-inside:avoid!important}.sayonara .kanji{font-size:18pt!important;margin-bottom:4pt!important}.sayonara .translit{font-size:7.5pt!important}.sayonara .next{margin-top:8pt!important;font-size:9.5pt!important}.priority-list{padding:8pt 14pt!important}.priority-header{padding:8pt 14pt!important;font-size:7.5pt!important}.pri-item{padding:5pt 0!important;font-size:9pt!important}.pri-num{font-size:11pt!important}.pri-when{font-size:7pt!important}@page{size:A4 portrait;margin:10mm 10mm 12mm 10mm}}</style>
+</head>
+<body>
+<div class="page">
+
+<header class="masthead">
+  <div class="tour-label">🌏 Asia Grand Tour 2026 &nbsp;·&nbsp; Diamond Max Edition &nbsp;·&nbsp; Japan · Osaka</div>
+  <div class="day-eyebrow">
+    <div class="day-number">02</div>
+    <div>
+      <div class="day-name">Osaka</div>
+      <div class="day-date">Wednesday · 12 August 2026</div>
+    </div>
+  </div>
+  <div class="day-title">Castle Best Angles &nbsp;·&nbsp; Deep Rest &nbsp;·&nbsp; Harukas Sunset Peak &nbsp;·&nbsp; Lantern Ritual &nbsp;·&nbsp; Osaka Food Night</div>
+  <div class="rating-badge">★★★★★ &nbsp; Diamond-Max Ultra Final v2 &nbsp;·&nbsp; 10 / 10 &nbsp;·&nbsp; Locked &amp; Weather-Proof</div>
+</header>
+
+<div class="conditions">
+  <span class="chip chip-heat">🌡️ 33–35°C · Feels 38–40°C</span>
+  <span class="chip chip-heat">☀️ UV Index 9–11</span>
+  <span class="chip chip-gold">📅 Wednesday · lighter than weekends</span>
+  <span class="chip chip-info">👟 ~9,000 steps · Mostly flat</span>
+  <span class="chip chip-info">🚇 JR Loop + Midosuji</span>
+  <span class="chip chip-gold">🌇 Sunset 18:45 (actual)</span>
+</div>
+
+<div class="logic-box">
+  <h3>🔷 Diamond-Max Logic — Final Form</h3>
+  <div class="logic-pillars">
+    <div class="pillar"><strong>Morning</strong>Iconic Osaka, executed cool + early + low friction. Best angles, no crowds, no suffering.</div>
+    <div class="pillar"><strong>Midday</strong>Full recovery window. Protects the entire trip. Non-negotiable.</div>
+    <div class="pillar"><strong>Evening</strong>Harukas sunset sequence — correctly timed emotional peak at 18:45.</div>
+    <div class="pillar"><strong>Night</strong>Flexible, local, no pressure — energy dependent. 3-stop food flow.</div>
+    <div class="pillar"><strong>Result</strong>Maximum experience · minimum fatigue · weather resilient</div>
+  </div>
+</div>
+
+<div class="route-strip">
+  <h3>🧭 Perfect Route — No Backtracking</h3>
+  <div class="route-nodes">
+    <div class="route-node"><span>🏨</span><span class="label">Namba</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🚆</span><span class="label">JR Loop</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🏯</span><span class="label">Castle</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>☕</span><span class="label">Starbucks</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🛏</span><span class="label">Hotel</span><span class="sub">&nbsp;4.5 hrs</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🌆</span><span class="label">Harukas</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🏮</span><span class="label">Hozenji</span></div>
+    <span class="route-arrow">→</span>
+    <div class="route-node"><span>🍜</span><span class="label">Food Night</span></div>
+  </div>
+</div>
+
+<!-- ════ PHASE 1 ════ -->
+<div class="phase-divider" style="animation-delay:0.52s">
+  <span class="phase-icon">🌤️</span>
+  <span class="phase-label">Phase 1 — Morning · Beat the Heat</span>
+  <div class="phase-line"></div>
+</div>
+
+<!-- WEATHER DECISION -->
+<div class="weather-decision">
+  <div class="wd-header">🌧️ Weather Decision — Check at 07:15 before leaving hotel</div>
+  <div class="wd-body">
+    <div class="wd-option">
+      <div class="wd-icon">☀️</div>
+      <div class="wd-label">Clear or light cloud → Proceed</div>
+      <div class="wd-text">Castle outer grounds as planned. Depart 07:45.</div>
+    </div>
+    <div class="wd-option">
+      <div class="wd-icon">🌧️</div>
+      <div class="wd-label">Heavy rain or storms → Auto-swap</div>
+      <div class="wd-text">Skip castle entirely → Osaka Museum of History instead. Indoor, A/C, elevated castle views through the windows. Walkable from Tanimachi-4-chome. Zero disruption to the rest of the day.</div>
+    </div>
+  </div>
+</div>
+
+<div class="blocks">
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">07:00</span><span class="b-duration">45 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Breakfast &amp; Prep <span class="tag tag-lock">Before Leaving</span></span><span class="cost free"><span class="yen">¥0–1,600</span><span class="aud">Hotel / konbini</span></span></div>
+      <div class="b-text">Drink 500ml water before coffee — non-negotiable at 33°C. Eat enough; there's a hot morning ahead. Pack the day bag while eating.</div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">🎒</span>
+        <span><strong>Pack before leaving:</strong> 2× water bottles · small towel · folding fan · SPF 50 applied now · hat + sunglasses · Suica · ¥5,000 cash backup</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">07:45</span><span class="b-duration">20 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>JR Loop Line — Namba Area → Osakajokoen <span class="tag tag-transit">Transit</span></span><span class="cost"><span class="yen">¥380</span><span class="aud">~A$4</span></span></div>
+      <div class="b-text">The simplest possible route. Walk to JR Namba (or short transfer to Imamiya / Shin-Imamiya on the Loop Line — Google Maps picks the fastest live option). One seat direct to <strong>Osakajokoen Station</strong>. No green 中央 signs, no confusion.</div>
+      <div class="metro-diagram">
+        <div class="metro-step">
+          <div class="metro-dot jr">JR</div>
+          <div>
+            <div class="metro-line-name">JR Osaka Loop Line → Osakajokoen</div>
+            <div class="metro-line-detail">~15 min · tap Suica · every 4–6 min · drops at NW castle gate, closest to Nishinomaru</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-nav">
+        <span class="callout-icon">💡</span>
+        <span>Verify the exact Namba-area station pairing on Google Maps the night before — the fastest route can vary depending on whether you walk to Imamiya or hop one metro stop. Either way, one seat to the castle.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">08:30</span><span class="b-duration">90 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Osaka Castle — Best Angles Sequence <span class="tag tag-key">Best Angles</span></span><span class="cost"><span class="yen">¥400</span><span class="aud">Nishinomaru × 2</span></span></div>
+      <div class="b-text">Skip the interior museum. The castle is about the best angles from the grounds, and in August heat the interior queue is the worst use of energy.</div>
+      <div class="steps-box">
+        <div class="steps-header">📸 Locked Angle Sequence</div>
+        <div class="steps-body">
+          <div class="step-row">
+            <div class="step-num">1</div>
+            <div class="step-content"><strong>08:30 — Outer Moat (free)</strong>Cool, shaded, empty. Wide shot with moat reflection. Best light of the day.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">2</div>
+            <div class="step-content"><strong>09:00 — Nishinomaru Garden (¥200pp)</strong>Gates open 09:00. Best full-castle composition on the grounds. Stone walls frame the keep from the south-east corner.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">3</div>
+            <div class="step-content"><strong>09:30 — Sakuramon Gate + inner moat bridge (free)</strong>The classic postcard angle. Arguably as good as Nishinomaru and entirely free.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num">4</div>
+            <div class="step-content"><strong>09:50 — Main keep close shot</strong>Take the photo. Move on.</div>
+          </div>
+          <div class="step-row">
+            <div class="step-num stop">⛔</div>
+            <div class="step-content"><strong>Hard stop: 10:00</strong>Heat becomes serious after this point. You've got the shots. Leave before the wife overheats, not after.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-rain">
+        <span class="callout-icon">🌧️</span>
+        <span><strong>Rain auto-swap:</strong> Replace entire phase with Osaka Museum of History — fully indoor, A/C, 10-floor building with elevated castle views through the windows. ¥600pp. Walkable from Tanimachi-4-chome. Frankly excellent.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">10:00</span><span class="b-duration">45 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Starbucks JO-TERRACE — Cool Down <span class="tag tag-rule">Rule</span></span><span class="cost"><span class="yen">¥1,200–1,800</span><span class="aud">~A$12–18</span></span></div>
+      <div class="b-text">Starbucks at JO-TERRACE opens 07:00 — the shopping complex doesn't wake up properly until 10:00–11:00, which is when you arrive, so either works. Sit in A/C. Cold drink. Let body temperature drop properly before the metro home.</div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">🧊</span>
+        <span><strong>Rule: do not leave while still sweating.</strong> If needed, extend to 60 minutes. The rest phase at the hotel only works if you arrive already cooled down. This step is not optional.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">10:45</span><span class="b-duration">25 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>JR Loop Line — Osakajokoen → Namba <span class="tag tag-transit">Transit</span></span><span class="cost"><span class="yen">¥380</span><span class="aud">~A$4</span></span></div>
+      <div class="b-text">Reverse route. One seat back. Walk to hotel. Shower immediately on arrival — before anything else, before lying down, before even opening the curtains.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ PHASE 2 ════ -->
+<div class="phase-divider" style="animation-delay:0.82s">
+  <span class="phase-icon">🛏</span>
+  <span class="phase-label">Phase 2 — Midday Rest · The Engine</span>
+  <div class="phase-line"></div>
+</div>
+
+<div class="blocks">
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">11:30</span><span class="b-duration">4.5 hrs</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Deep Rest <span class="tag tag-rest">Non-Negotiable</span></span><span class="cost hotel"><span class="yen">Incl.</span><span class="aud">Hotel</span></span></div>
+      <div class="b-text">This phase is the engine of the whole day. Without it, the Harukas sunset sequence becomes an endurance exercise rather than an experience.</div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">📋</span>
+        <span><strong>Sequence:</strong> Shower immediately → 500ml water → aircon 24°C → lie down. No exploring. No "quick wander". Phone on silent. Back out by 16:30 fully restored.</span>
+      </div>
+      <div class="callout callout-nav">
+        <span class="callout-icon">💡</span>
+        <span>This rest window protects not just today but the entire trip. Day 3, Day 5, Day 10 — they all depend on not grinding yourself into the ground on Day 2. The midday rest is the decision that compounds.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ PHASE 3 ════ -->
+<div class="phase-divider" style="animation-delay:0.92s">
+  <span class="phase-icon">🌆</span>
+  <span class="phase-label">Phase 3 — Evening · Peak</span>
+  <div class="phase-line"></div>
+</div>
+
+<div class="blocks">
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">16:30</span><span class="b-duration">25 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Metro — Namba → Tennoji <span class="tag tag-transit">Fully Indoor</span></span><span class="cost"><span class="yen">¥230</span><span class="aud">~A$2</span></span></div>
+      <div class="b-text">Midosuji Line south, 3 stops. Exit following signs: <strong>Abeno Harukas / 近鉄百貨店</strong>. The route from the station to the tower is fully indoor through the Kintetsu department store — no heat exposure at any point.</div>
+      <div class="metro-diagram">
+        <div class="metro-step">
+          <div class="metro-dot midosuji">M</div>
+          <div>
+            <div class="metro-line-name">Midosuji Line — Namba → Tennoji</div>
+            <div class="metro-line-detail">3 stops · ~8 min · follow 近鉄百貨店 exit signs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">17:00</span><span class="b-duration">2 hrs</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Abeno Harukas 300 — Sunset Sequence <span class="tag tag-peak">⭐⭐ Peak</span></span><span class="cost"><span class="yen">¥4,000</span><span class="aud">~A$41</span></span></div>
+      <div class="b-text">Japan's tallest building. The view covers Osaka Bay, Namba, Kyoto in the distance, and on a clear day the faint silhouette of the Akashi Kaikyo Bridge. The objective is to stay for the full light transition.</div>
+      <div class="peak-box">
+        <div class="peak-header">🌇 Sunset Sequence — Locked Timing (12 August actual)</div>
+        <div class="peak-timeline">
+          <div class="peak-row">
+            <div class="peak-time">17:00</div>
+            <div class="peak-desc">Arrive, orient, <strong>claim a west-facing seat at Cafe SKY GARDEN 300</strong>. Small counter — fills fast on clear evenings.</div>
+          </div>
+          <div class="peak-row">
+            <div class="peak-time">17:45</div>
+            <div class="peak-desc">Golden hour begins. Light shifts to amber across the entire city grid.</div>
+          </div>
+          <div class="peak-row">
+            <div class="peak-time">18:45</div>
+            <div class="peak-desc"><strong>Sunset peak.</strong> The bay turns red. The towers of Namba visible below.</div>
+          </div>
+          <div class="peak-row">
+            <div class="peak-time">19:00</div>
+            <div class="peak-desc">City lights ignite. The grid below goes from grey to gold to white.</div>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <span>If the west-window seats at the café are taken, don't queue — go straight to the <strong>outdoor deck on Floor 58 (open-air)</strong>. West-facing, no glass, better for photos, usually less crowded. One wine upstairs after — the café serves wine and cocktails.</span>
+      </div>
+      <div class="callout callout-rain">
+        <span class="callout-icon">🌧️</span>
+        <span><strong>Cloud / no-view pivot:</strong> Move to the Kintetsu Department Store's food floors (same building) or Namba Parks on the way home. Same location, same energy, no disruption to the evening.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">19:05</span><span class="b-duration">15 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Metro — Tennoji → Namba <span class="tag tag-transit">Transit</span></span><span class="cost"><span class="yen">¥230</span><span class="aud">~A$2</span></span></div>
+      <div class="b-text">Midosuji Line northbound, 3 stops. Back in Namba by 19:20.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ PHASE 4 ════ -->
+<div class="phase-divider" style="animation-delay:1.02s">
+  <span class="phase-icon">🏮</span>
+  <span class="phase-label">Phase 4 — Lantern Ritual</span>
+  <div class="phase-line"></div>
+</div>
+
+<div class="blocks">
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">19:20</span><span class="b-duration">20 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Hozenji Yokocho — Water Ritual <span class="tag tag-key">🏮 Ritual</span></span><span class="cost free"><span class="yen">¥0</span><span class="aud">Free</span></span></div>
+      <div class="b-text">Walk 8 minutes from Namba toward Dotonbori, then turn into the stone lane. The moment you enter, the city disappears. The lane is 80 metres long and lit with paper lanterns. Walk it slowly.</div>
+      <div class="b-text" style="margin-top:8px">At the end stands the moss-covered statue of <strong>Mizukake Fudo</strong> — the "Water-Pouring Fudo". Take a ladle from the wooden bucket and <strong>pour the water over the statue</strong>. The moss is centuries of worshippers doing exactly this. Make a wish for the journey as you pour.</div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">🏮</span>
+        <span>You've just seen Osaka from 300 metres. Now you're at ground level in a 200-year-old stone lane. That contrast <em>is</em> the point. Walk it twice — once down, once back.</span>
+      </div>
+      <div class="callout callout-rain">
+        <span class="callout-icon">🌧️</span>
+        <span>Rain → even better. Hozenji Yokocho in the rain is atmospheric, not ruined. The lanterns reflect in the wet stones. Go regardless of weather.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════ PHASE 5 ════ -->
+<div class="phase-divider" style="animation-delay:1.12s">
+  <span class="phase-icon">🍜</span>
+  <span class="phase-label">Phase 5 — Osaka Food Night</span>
+  <div class="phase-line"></div>
+</div>
+
+<div class="blocks">
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">19:40</span><span class="b-duration">1h 50m</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>3-Stop Food Flow <span class="tag tag-food">Osaka Night</span></span><span class="cost"><span class="yen">¥2,700–3,400</span><span class="aud">~A$28–35</span></span></div>
+      <div class="b-text">Three stops. Curated sequence. Each distinctly Osaka. No reservation needed for any.</div>
+      <div class="food-stops">
+        <div class="food-stop">
+          <div class="food-stop-num">01</div>
+          <div class="food-stop-name">Okonomiyaki — Main</div>
+          <div class="food-stop-item">Busy local counter, visible griddle, locals eating. Osaka-style. <strong>Order two small ones, not one to share</strong> — most counter-style okonomiyaki-ya require one order per seat.</div>
+          <div class="food-stop-note">¥1,600–2,000 for two. Mizuno on Dotonbori is benchmark; Chibo Dotonbori is the table-seat alternative if you prefer to share.</div>
+        </div>
+        <div class="food-stop">
+          <div class="food-stop-num">02</div>
+          <div class="food-stop-name">Takoyaki — Canal</div>
+          <div class="food-stop-item">Tray of 6 from any Dotonbori stall. Eat standing at the canal rail. Blow on them — molten inside.</div>
+          <div class="food-stop-note">¥500–600. Aizuya or Kukuru are reliable.</div>
+        </div>
+        <div class="food-stop">
+          <div class="food-stop-num">03</div>
+          <div class="food-stop-name">Canal Drink — Close</div>
+          <div class="food-stop-item">Cold can from a vending machine. Sit on the lower canal path. Watch the neon double in the water. Let the day settle.</div>
+          <div class="food-stop-note">¥150. The best seat in Osaka is free.</div>
+        </div>
+      </div>
+      <div class="callout callout-pivot">
+        <span class="callout-icon">🌧️</span>
+        <span><strong>Rain upgrade:</strong> Stay inside Dotonbori covered arcades or Kuromon Ichiba Market. Same experience, fully sheltered.</span>
+      </div>
+      <div class="callout callout-warn">
+        <span class="callout-icon">✂️</span>
+        <span><strong>Ura-Namba cut from tonight.</strong> Relocated to Day 3 as a dedicated experience. Tonight closes with the canal drink. Don't add a fourth environment when you've already done five distinct phases.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="b-time"><span class="b-clock">21:30</span><span class="b-duration">10 min</span></div>
+    <div class="b-content">
+      <div class="b-label"><span>Walk Home + Konbini Stop <span class="tag tag-rest">Close</span></span><span class="cost"><span class="yen">¥300–500</span><span class="aud">~A$3–5</span></span></div>
+      <div class="b-text">8–10 minutes flat from the canal to the hotel. Stop at the konbini: tomorrow's breakfast, a litre of cold water for the room. You've done a perfect day.</div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">📋</span>
+        <span><strong>Night reset:</strong> Bag ready · Alarm 07:30 · Suica topped up if needed · SPF ready · Phone charging. Day 3 loads early.</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ── DAILY TOTAL ── -->
+<div class="daily-total">
+  <div class="daily-total-header">💴 Day 2 — Cost Breakdown (2 people)</div>
+  <div class="daily-total-rows">
+    <div class="cost-row"><span class="cr-label">Breakfast (hotel or konbini)</span><span class="cr-yen">¥0–1,600</span><span class="cr-aud">A$0–16</span></div>
+    <div class="cost-row"><span class="cr-label">JR Loop Line — Osakajokoen return (×2)</span><span class="cr-yen">¥760</span><span class="cr-aud">~A$8</span></div>
+    <div class="cost-row"><span class="cr-label">Nishinomaru Garden × 2</span><span class="cr-yen">¥400</span><span class="cr-aud">~A$4</span></div>
+    <div class="cost-row"><span class="cr-label">Starbucks JO-TERRACE × 2</span><span class="cr-yen">¥1,200–1,800</span><span class="cr-aud">~A$12–18</span></div>
+    <div class="cost-row"><span class="cr-label">Metro — Namba ↔ Tennoji (×2 each)</span><span class="cr-yen">¥920</span><span class="cr-aud">~A$9</span></div>
+    <div class="cost-row"><span class="cr-label">Harukas 300 tickets × 2</span><span class="cr-yen">¥4,000</span><span class="cr-aud">~A$41</span></div>
+    <div class="cost-row"><span class="cr-label">Harukas café drinks × 2</span><span class="cr-yen">¥1,600–2,400</span><span class="cr-aud">~A$16–25</span></div>
+    <div class="cost-row"><span class="cr-label">Hozenji Yokocho</span><span class="cr-yen">¥0</span><span class="cr-aud">Free</span></div>
+    <div class="cost-row"><span class="cr-label">Okonomiyaki × 2 small orders</span><span class="cr-yen">¥1,600–2,000</span><span class="cr-aud">~A$16–21</span></div>
+    <div class="cost-row"><span class="cr-label">Takoyaki × 2 trays</span><span class="cr-yen">¥1,000–1,200</span><span class="cr-aud">~A$10–12</span></div>
+    <div class="cost-row"><span class="cr-label">Canal drinks + konbini stop</span><span class="cr-yen">¥500–800</span><span class="cr-aud">~A$5–8</span></div>
+    <div class="cost-row total-row"><span class="cr-label">🧮 Daily Total (2 people, excl. hotel)</span><span class="cr-yen">¥11,980–14,880</span><span class="cr-aud">~A$124–154</span></div>
+  </div>
+</div>
+
+<!-- ── SCORE ── -->
+<div style="margin:28px 48px 0;opacity:0;animation:fadeUp 0.5s ease forwards 1.38s">
+  <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:600">🏆 Final Score</div>
+  <div class="score-table">
+    <div class="score-row"><span class="score-cat">Flow &amp; Pacing</span><span class="score-val">10 / 10</span></div>
+    <div class="score-row"><span class="score-cat">Heat Strategy</span><span class="score-val">10 / 10</span></div>
+    <div class="score-row"><span class="score-cat">Emotional Impact</span><span class="score-val">10 / 10</span></div>
+    <div class="score-row"><span class="score-cat">Practicality</span><span class="score-val">10 / 10</span></div>
+    <div class="score-row"><span class="score-cat">Weather Resilience</span><span class="score-val">10 / 10</span></div>
+  </div>
+</div>
+
+<!-- ── PACKING ── -->
+<div class="packing-strip">
+  <div class="packing-header">🎒 Day Pack — Final</div>
+  <div class="packing-items">
+    <span class="pack-item">💧 2× full water bottles</span>
+    <span class="pack-item">🧻 Small towel</span>
+    <span class="pack-item">💨 Folding fan</span>
+    <span class="pack-item">🧴 SPF 50 — applied before leaving</span>
+    <span class="pack-item">📱 Suica × 2</span>
+    <span class="pack-item">🕶️ Sunglasses</span>
+    <span class="pack-item">🧢 Hat</span>
+    <span class="pack-item">📱 Phone + offline maps</span>
+    <span class="pack-item">💴 ¥5,000 cash</span>
+  </div>
+</div>
+
+<!-- ── PINS ── -->
+<div class="pins-strip">
+  <div class="pins-header">📍 Google Maps — Save These Now</div>
+  <div class="pins-list">
+    <span class="pin">📌 JR Osakajokoen Station (castle's NW gate)</span>
+    <span class="pin">📌 Osaka Castle — Nishinomaru Garden</span>
+    <span class="pin">📌 Osaka Castle — Sakuramon Gate</span>
+    <span class="pin">📌 Starbucks JO-TERRACE Osaka</span>
+    <span class="pin">📌 Osaka Museum of History (rain swap)</span>
+    <span class="pin">📌 Tennoji Station / Abeno Harukas 300</span>
+    <span class="pin">📌 Cafe SKY GARDEN 300 (Floor 58)</span>
+    <span class="pin">📌 Hozenji Yokocho</span>
+    <span class="pin">📌 Mizukake Fudo statue</span>
+    <span class="pin">📌 Mizuno Okonomiyaki (Dotonbori)</span>
+    <span class="pin">📌 Chibo Dotonbori (table-seat)</span>
+    <span class="pin">📌 Dotonbori Canal Lower Path</span>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="day-footer">
+  <div class="footer-prev">← Day 1 · Osaka Arrival · Namba · Dotonbori First Look</div>
+  <div class="footer-dots">
+    <div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+  <div class="footer-next">Tomorrow → <strong>Day 3 · Nakazakicho · Tenjinbashisuji · Ura-Namba</strong> ›</div>
+</div>
+
+</div>
+</body>
+</html>
 
